@@ -1,26 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import PrimaryButton from "../components/PrimaryButton";
+import { analyzeProfile } from "../utils/analyzeProfile";
 
 const SECTION_TRANSITION = {
   duration: 0.45,
   ease: [0.16, 1, 0.3, 1] as const,
-};
-
-const MOCK_RESULTS = {
-  overallScore: 82,
-  verdict: "Strong, but could be sharper in a few places.",
-  strengths: [
-    "Comes across as warm and approachable without oversharing.",
-    "Clear sense of what you enjoy and how you spend your time.",
-    "Shows personality with specific details instead of generic traits.",
-  ],
-  improvements: [
-    "You could tighten the opening sentence so it hooks attention a bit faster.",
-    "Consider swapping 1–2 familiar phrases for more concrete, real-world examples.",
-    "Try adding a short line about what you’re looking for to gently set expectations.",
-  ],
 };
 
 const listVariants = {
@@ -41,6 +27,10 @@ const listItemVariants = {
 function ResultsScreen() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as { bio?: string } | null;
+  const bio = state?.bio ?? "";
+  const analysis = analyzeProfile(bio);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1500);
@@ -123,7 +113,7 @@ function ResultsScreen() {
                   Overall bio score
                 </p>
                 <p className="mt-2 text-sm text-neutral-300">
-                  {MOCK_RESULTS.verdict}
+                  {analysis.verdict}
                 </p>
               </div>
 
@@ -133,7 +123,7 @@ function ResultsScreen() {
                 transition={{ ...SECTION_TRANSITION, delay: 0.16 }}
                 className="flex items-center justify-end sm:justify-center"
               >
-                <AnimatedScore value={MOCK_RESULTS.overallScore} />
+                <AnimatedScore value={analysis.score} />
               </motion.div>
             </div>
           </motion.section>
@@ -160,7 +150,7 @@ function ResultsScreen() {
                 initial="hidden"
                 animate="visible"
               >
-                {MOCK_RESULTS.strengths.map((item) => (
+                {analysis.strengths.map((item) => (
                   <motion.li
                     key={item}
                     variants={listItemVariants}
@@ -188,7 +178,7 @@ function ResultsScreen() {
                 initial="hidden"
                 animate="visible"
               >
-                {MOCK_RESULTS.improvements.map((item) => (
+                {analysis.improvements.map((item) => (
                   <motion.li
                     key={item}
                     variants={listItemVariants}
@@ -234,6 +224,10 @@ function AnimatedScore({ value }: { value: number }) {
   const score = useMotionValue(0);
   const rounded = useTransform(score, (latest) => Math.round(latest));
   const [display, setDisplay] = useState(0);
+  const progress = useTransform(score, (latest) => Math.max(0, Math.min(100, latest)) / 100);
+  const radius = 30;
+  const circumference = 2 * Math.PI * radius;
+  const strokeOffset = useTransform(progress, (p) => circumference * (1 - p));
 
   useEffect(() => {
     const controls = animate(score, value, {
@@ -252,16 +246,46 @@ function AnimatedScore({ value }: { value: number }) {
   }, [rounded]);
 
   const textColor =
-    value < 50
+    value < 40
       ? "text-red-400"
-      : value <= 75
-      ? "text-amber-300"
+      : value <= 70
+      ? "text-yellow-300"
       : "text-emerald-400";
+
+  const ringColor =
+    value < 40 ? "#f87171" : value <= 70 ? "#facc15" : "#4ade80";
 
   return (
     <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl bg-neutral-950/80 shadow-[0_18px_40px_rgba(79,70,229,0.35)]">
       <div className="absolute inset-[2px] rounded-2xl bg-gradient-to-br from-indigo-600 via-purple-500 to-emerald-500 opacity-40 blur-md" />
       <div className="relative flex h-[72px] w-[72px] items-center justify-center rounded-2xl bg-neutral-900/95 border border-neutral-700/60">
+        <svg
+          className="absolute h-[72px] w-[72px] -rotate-90 text-neutral-800"
+          viewBox="0 0 72 72"
+          aria-hidden="true"
+        >
+          <circle
+            cx="36"
+            cy="36"
+            r={radius}
+            fill="transparent"
+            stroke="currentColor"
+            strokeWidth="6"
+          />
+          <motion.circle
+            cx="36"
+            cy="36"
+            r={radius}
+            fill="transparent"
+            stroke={ringColor}
+            strokeWidth="6"
+            strokeLinecap="round"
+            style={{
+              strokeDasharray: circumference,
+              strokeDashoffset: strokeOffset,
+            }}
+          />
+        </svg>
         <span className={`text-2xl font-semibold ${textColor}`}>
           {display}
         </span>

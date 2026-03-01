@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ANALYSIS_STEPS = [
@@ -11,15 +11,18 @@ const ANALYSIS_STEPS = [
 
 function AnalyzingScreen() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as { bio?: string } | null;
+  const bio = state?.bio ?? "";
   const [stepIndex, setStepIndex] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate("/results");
+      navigate("/results", { state: { bio } });
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, [navigate]);
+  }, [navigate, bio]);
 
   useEffect(() => {
     const interval = setInterval(() => {
