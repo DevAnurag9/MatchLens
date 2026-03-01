@@ -17,7 +17,7 @@ function UploadScreen() {
 
     setTimeout(() => {
       setLoading(false);
-      navigate("/results");
+      navigate("/analyzing");
     }, 2000);
   };
 
