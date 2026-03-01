@@ -4,10 +4,10 @@ type BioInputProps = {
   };
   
   function getBioQuality(length: number) {
-    if (length === 0) return { text: "Start typing your bio", color: "text-neutral-500" };
-    if (length < 40) return { text: "Too short 😬", color: "text-red-400" };
-    if (length < 80) return { text: "Good start 👍", color: "text-yellow-400" };
-    return { text: "Great bio 🔥", color: "text-green-400" };
+  if (length === 0) return { text: "Share 2–3 sentences about you to get started.", color: "text-neutral-500" };
+  if (length < 40) return { text: "Nice start — a bit more detail will help.", color: "text-yellow-400" };
+  if (length < 80) return { text: "Looking good — you’re close to a strong bio.", color: "text-emerald-400" };
+  return { text: "Great depth and clarity — this reads really well.", color: "text-emerald-400" };
   }
   
   function BioInput({ value, onChange }: BioInputProps) {
@@ -23,7 +23,7 @@ type BioInputProps = {
           value={value}
           onChange={(e) => onChange(e.target.value)}
           rows={4}
-          placeholder="Write something about yourself..."
+          placeholder="Give a quick snapshot of who you are, what you enjoy, and what you’re looking for."
           className="
             mt-2 w-full rounded-lg
             bg-neutral-900 text-white

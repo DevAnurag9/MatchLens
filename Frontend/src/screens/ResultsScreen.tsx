@@ -3,6 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import PrimaryButton from "../components/PrimaryButton";
 
+const SECTION_TRANSITION = {
+  duration: 0.45,
+  ease: [0.16, 1, 0.3, 1] as const,
+};
+
 const MOCK_RESULTS = {
   overallScore: 82,
   verdict: "Strong, but could be sharper in a few places.",
@@ -76,9 +81,9 @@ function ResultsScreen() {
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(79,70,229,0.25),transparent_55%),radial-gradient(circle_at_bottom,_rgba(16,185,129,0.18),transparent_55%)]" />
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        transition={SECTION_TRANSITION}
         className="relative w-full max-w-3xl"
       >
         <div className="pointer-events-none absolute -inset-[1px] -z-10 rounded-3xl bg-gradient-to-r from-indigo-500/25 via-purple-500/15 to-emerald-500/25 opacity-70 blur-2xl" />
@@ -88,7 +93,7 @@ function ResultsScreen() {
           <motion.header
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease: "easeOut", delay: 0.05 }}
+            transition={{ ...SECTION_TRANSITION, delay: 0.05 }}
             className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between"
           >
             <div>
@@ -109,7 +114,7 @@ function ResultsScreen() {
           <motion.section
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease: "easeOut", delay: 0.12 }}
+            transition={{ ...SECTION_TRANSITION, delay: 0.1 }}
             className="mt-6"
           >
             <div className="flex flex-col gap-4 rounded-2xl border border-neutral-800 bg-gradient-to-r from-indigo-500/15 via-neutral-900 to-emerald-500/10 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-6">
@@ -125,7 +130,7 @@ function ResultsScreen() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.45, ease: "easeOut", delay: 0.18 }}
+                transition={{ ...SECTION_TRANSITION, delay: 0.16 }}
                 className="flex items-center justify-end sm:justify-center"
               >
                 <AnimatedScore value={MOCK_RESULTS.overallScore} />
@@ -137,7 +142,7 @@ function ResultsScreen() {
           <motion.section
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease: "easeOut", delay: 0.16 }}
+            transition={{ ...SECTION_TRANSITION, delay: 0.15 }}
             className="mt-8 grid gap-6 sm:grid-cols-2"
           >
             {/* Strengths */}
@@ -201,7 +206,7 @@ function ResultsScreen() {
           <motion.footer
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease: "easeOut", delay: 0.22 }}
+            transition={{ ...SECTION_TRANSITION, delay: 0.2 }}
             className="mt-8 flex flex-col gap-3 border-t border-neutral-800/80 pt-6 sm:flex-row sm:items-center sm:justify-between"
           >
             <p className="text-xs text-neutral-500">

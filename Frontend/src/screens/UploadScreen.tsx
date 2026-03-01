@@ -36,7 +36,14 @@ function UploadScreen() {
           aria-hidden="true"
         />
 
-        <div className="relative overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-900/80 shadow-[0_24px_80px_rgba(0,0,0,0.85)] backdrop-blur-sm">
+        <motion.div
+          whileHover={{
+            scale: 1.01,
+          }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          className="relative overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-900/80 shadow-[0_24px_80px_rgba(0,0,0,0.85)] backdrop-blur-sm
+                     md:hover:bg-neutral-900/90 md:hover:border-neutral-700/80 md:hover:shadow-[0_26px_90px_rgba(0,0,0,0.9)]"
+        >
           <div className="px-5 py-6 sm:px-8 sm:py-8 space-y-8">
             <motion.div
               initial={{ opacity: 0, y: -6 }}
@@ -79,7 +86,7 @@ function UploadScreen() {
               </div>
             </motion.div>
           </div>
-        </div>
+        </motion.div>
       </motion.div>
     </div>
   );

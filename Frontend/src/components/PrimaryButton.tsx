@@ -24,17 +24,18 @@ function PrimaryButton({
         isDisabled
           ? undefined
           : {
-              scale: 1.02,
+              scale: 1.015,
+              boxShadow: "0 18px 40px rgba(79,70,229,0.35)",
             }
       }
       whileTap={
         isDisabled
           ? undefined
           : {
-              scale: 0.97,
+              scale: 0.985,
             }
       }
-      transition={{ type: "spring", stiffness: 260, damping: 22 }}
+      transition={{ type: "spring", stiffness: 240, damping: 26 }}
       className={`mt-8 w-full rounded-lg py-3 text-sm font-semibold
         relative overflow-hidden
         transition-colors duration-200 ease-out
@@ -43,7 +44,7 @@ function PrimaryButton({
         ${
           isDisabled
             ? "bg-neutral-800 text-neutral-500 cursor-not-allowed opacity-60"
-            : "bg-indigo-500 text-white shadow-lg shadow-indigo-500/25 hover:bg-indigo-400"
+            : "bg-gradient-to-r from-indigo-500 via-indigo-500 to-indigo-400 text-white shadow-lg shadow-indigo-500/25 hover:from-indigo-500 hover:via-indigo-500 hover:to-indigo-300"
         }
         ${loading ? "animate-pulse" : ""}
       `}
