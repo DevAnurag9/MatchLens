@@ -17,7 +17,7 @@ function ResultsScreen() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white px-6 py-12">
+    <div className="min-h-screen bg-neutral-950 text-white px-6 py-12 animate-fade-in">
       <div className="max-w-xl mx-auto space-y-6">
         <h1 className="text-3xl font-bold">Your Profile Analysis</h1>
 
@@ -30,12 +30,14 @@ function ResultsScreen() {
 }
 
 function ResultCard({ title, value }: { title: string; value: string }) {
-  return (
-    <div className="rounded-xl bg-neutral-900 p-5 shadow-md transition hover:scale-[1.02]">
-      <p className="text-sm text-neutral-400">{title}</p>
-      <p className="mt-2 text-xl font-semibold">{value}</p>
-    </div>
-  );
-}
+    return (
+      <div className="rounded-xl bg-neutral-900 p-5 shadow-md transition
+        hover:scale-[1.03] hover:shadow-lg
+        animate-card-in">
+        <p className="text-sm text-neutral-400">{title}</p>
+        <p className="mt-2 text-xl font-semibold">{value}</p>
+      </div>
+    );
+  }
 
 export default ResultsScreen;
