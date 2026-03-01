@@ -31,6 +31,8 @@ function ResultsScreen() {
   const state = location.state as { bio?: string } | null;
   const bio = state?.bio ?? "";
   const analysis = analyzeProfile(bio);
+  const hasBio = bio.trim().length > 0;
+  const isWeakBio = hasBio && analysis.score < 40;
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1500);
@@ -113,7 +115,7 @@ function ResultsScreen() {
                   Overall bio score
                 </p>
                 <p className="mt-2 text-sm text-neutral-300">
-                  {analysis.verdict}
+                  This is a quick read on how clearly your bio comes across overall.
                 </p>
               </div>
 
@@ -128,6 +130,23 @@ function ResultsScreen() {
             </div>
           </motion.section>
 
+          {/* Why this score */}
+          <motion.section
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...SECTION_TRANSITION, delay: 0.13 }}
+            className="mt-4 text-xs sm:text-sm text-neutral-400"
+          >
+            <h2 className="text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-500">
+              Why this score?
+            </h2>
+            <p className="mt-2 leading-relaxed">
+              {hasBio
+                ? "This score reflects your tone, how much detail you share, and how clearly your interests and intentions come through. A few small tweaks here can shift your score more than you’d expect."
+                : "There isn’t enough bio text yet to score — once you add a few lines I’ll re-evaluate it for you."}
+            </p>
+          </motion.section>
+
           {/* Two-column content */}
           <motion.section
             initial={{ opacity: 0, y: 10 }}
@@ -137,7 +156,7 @@ function ResultsScreen() {
           >
             {/* Strengths */}
             <div>
-              <h2 className="text-sm font-semibold text-neutral-100">
+              <h2 className="text-sm font-semibold text-emerald-300">
                 Strengths
               </h2>
               <p className="mt-1 text-xs text-neutral-500">
@@ -165,8 +184,8 @@ function ResultsScreen() {
 
             {/* Improvements */}
             <div>
-              <h2 className="text-sm font-semibold text-neutral-100">
-                Suggested improvements
+              <h2 className="text-sm font-semibold text-amber-300">
+                Improvements
               </h2>
               <p className="mt-1 text-xs text-neutral-500">
                 Low-lift edits to increase real-world match quality.
@@ -190,6 +209,26 @@ function ResultsScreen() {
                 ))}
               </motion.ul>
             </div>
+          </motion.section>
+
+          {/* Overall verdict */}
+          <motion.section
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...SECTION_TRANSITION, delay: 0.18 }}
+            className="mt-8 rounded-2xl border border-neutral-800/80 bg-neutral-900/70 px-4 py-4 sm:px-5 sm:py-5"
+          >
+            <h2 className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-400">
+              Overall verdict
+            </h2>
+            <p className="mt-2 text-sm text-neutral-200 sm:text-base">
+              {analysis.verdict}
+            </p>
+            {isWeakBio && (
+              <p className="mt-2 text-xs text-neutral-400 sm:text-sm">
+                Treat this as a first draft—adding a couple of specific interests, a hint of what you’re looking for, and one line that sounds uniquely you can shift this score more than you’d think.
+              </p>
+            )}
           </motion.section>
 
           {/* CTA */}

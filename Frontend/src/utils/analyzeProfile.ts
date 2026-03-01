@@ -184,14 +184,14 @@ export function analyzeProfile(bio: string): ProfileAnalysis {
   if (isShort) {
     score -= 10;
     improvements.push(
-      "Add one or two more sentences so people get more than just a headline view of you."
+      "Expand this into 2–3 short sentences that cover who you are day-to-day, what you enjoy, and what you’re looking for."
     );
   }
 
   if (!lookingForPhrase) {
     score -= 3;
     improvements.push(
-      "Include a short line about what you’re hoping to find here, so matches can quickly see if you’re aligned."
+      "Add one simple line about what you’d like to find here so people can quickly tell if you’re on the same page."
     );
   }
 
@@ -205,7 +205,7 @@ export function analyzeProfile(bio: string): ProfileAnalysis {
   if (!interestKeyword) {
     score -= 3;
     improvements.push(
-      "Mention one concrete hobby, interest, or weekend activity to make your bio more memorable."
+      "Drop in one concrete hobby or weekend activity so people have something easy to start a conversation with."
     );
   }
 
