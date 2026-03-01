@@ -1,15 +1,17 @@
+import { type PropsWithChildren } from "react";
 import { motion } from "framer-motion";
 
-type PrimaryButtonProps = {
+type PrimaryButtonProps = PropsWithChildren<{
   loading: boolean;
   disabled: boolean;
   onClick?: () => void;
-};
+}>;
 
 function PrimaryButton({
   loading,
   disabled,
   onClick,
+  children,
 }: PrimaryButtonProps) {
   const isDisabled = disabled || loading;
 
@@ -46,7 +48,7 @@ function PrimaryButton({
         ${loading ? "animate-pulse" : ""}
       `}
     >
-      {loading ? "Analyzing..." : "Analyze My Profile →"}
+      {children ?? (loading ? "Analyzing..." : "Analyze My Profile →")}
     </motion.button>
   );
 }
